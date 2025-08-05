@@ -48,5 +48,9 @@ def failure():
     reason = request.args.get("reason", "Unknown error")
     return render_template("failure.html", reason=reason)
 
+@app.route('/todo')
+def todo():
+    return render_template('todo.html')
+
 if __name__ == "__main__":
     app.run(debug=True)
