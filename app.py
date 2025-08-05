@@ -54,3 +54,24 @@ def todo():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+from flask import request
+from pymongo import MongoClient
+
+# Replace with your actual MongoDB URI
+client = MongoClient("mongodb://codeblink31:Welcome%40codeblink31@ac-h3tpu0p-shard-00-00.3ceun6a.mongodb.net:27017,ac-h3tpu0p-shard-00-01.3ceun6a.mongodb.net:27017,ac-h3tpu0p-shard-00-02.3ceun6a.mongodb.net:27017/?ssl=true&replicaSet=atlas-udfj2j-shard-0&authSource=admin&retryWrites=true&w=majority&appName=Cluster0")
+db = client["todo_db"]
+collection = db["items"]
+
+@app.route('/submittodoitem', methods=['POST'])
+def submit_todo_item():
+    item_name = request.form.get('itemName')
+    item_description = request.form.get('itemDescription')
+    
+    # Insert into MongoDB
+    collection.insert_one({
+        "name": item_name,
+        "description": item_description
+    })
+    
+    return "To-Do item submitted successfully!"
